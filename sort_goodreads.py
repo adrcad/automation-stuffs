@@ -9,8 +9,8 @@ from kitchen.text.converters import getwriter, to_bytes, to_unicode
 import locale
 
 
-api_key = os.getenv("API_KEY")
-api_secret = os.getenv("API_SECRET")
+api_key = os.getenv("GR_API_KEY")
+api_secret = os.getenv("GR_API_SECRET")
 
 
 def parse_args():
@@ -190,11 +190,12 @@ def main():
         Books.append(b)
 
     with open("results.txt", "w") as f:
-        sys.stdout = f
+        old, sys.stdout = sys.stdout, f
         print("List of results, sorted by higher fitness:\n<Book title> : <Book fitness>")
         print("-------------------------------------------------")
         for book in sorted(Books, key=lambda b: b.fitnessScore, reverse=True):
             print(book)
+    sys.stdout = old    # restore stdout
     print("Find your results in the 'results.txt' file of the root directory of the script")
 
 if __name__ == '__main__':
