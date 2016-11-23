@@ -57,7 +57,7 @@ def get_one_page(grc, args):
             return
         else:
             print("Got page %s: \n%s" % (pg, "\n".join([to_unicode(b.title) for b in res])))
-            print("-------------------------------------------------------")
+            print("-" * 56)
             return res
 
 
@@ -189,10 +189,13 @@ def main():
         b = Book(book, max_AR, max_NTR, max_TR)
         Books.append(b)
 
-    with open("results.txt", "w") as f:
+    if not os.path.isdir("results"):
+        os.mkdir("results")
+    result_file = os.path.join("results", "results.txt")
+    with open(result_file, "w") as f:
         old, sys.stdout = sys.stdout, f
         print("List of results, sorted by higher fitness:\n<Book title> : <Book fitness>")
-        print("-------------------------------------------------")
+        print("-" * 56)
         for book in sorted(Books, key=lambda b: b.fitnessScore, reverse=True):
             print(book)
     sys.stdout = old    # restore stdout
